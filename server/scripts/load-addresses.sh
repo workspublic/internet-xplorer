@@ -5,22 +5,28 @@ source ./load-dotenv.sh
 load_dotenv
 
 echo "Starting..."
-echo "Database: "$DB_DATABASE"@"$DB_HOST
+
+conn_str=postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}
 
 echo "Dropping existing addresses..."
 # TODO check if the table exists before running this, or suppress error
-psql -d $DB_DATABASE -c "truncate addresses"
+psql $conn_str -c "truncate addresses"
 
+# this makes ogr2ogr way, way faster importing data
+# https://gdal.org/drivers/vector/pg.html#configuration-options
+export PG_USECOPY=YES
+
+# TODO create the table in a preliminary step and just populate that here?
+# would suppress the "layer creation options ignored" warnings
 echo "Loading addresses..."
 for file in $1/*-addresses-*.geojson; do
   ogr2ogr \
   -append \
-  -lco FID=id \
   -lco GEOMETRY_NAME=geom \
   -nln addresses \
-  PG:dbname=$DB_DATABASE \
   -progress \
-  "$file"
+  $conn_str \
+  $file
 done
 
 # TODO create indexes
