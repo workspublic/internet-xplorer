@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # set env vars
-source ./export-env.sh
-export_env
+source ./load-dotenv.sh
+load_dotenv
 
 echo "Starting..."
 echo "Database: "$DB_DATABASE"@"$DB_HOST

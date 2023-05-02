@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 # Usage:
-# ./export-env.sh ; $COMMAND
+# ./load-dotenv.sh ; $COMMAND
 
 # adapted from
 # https://stackoverflow.com/a/20909045/676001
 
-export_env () {
+load_dotenv () {
   if [ -n "$NODE_ENV" ]; then
     env_file=../../.env."$NODE_ENV"
   else

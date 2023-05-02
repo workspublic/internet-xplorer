@@ -8,7 +8,7 @@ Builds and serves production data
 
 ## Preparing the database
 
-💡 *general note*: any of the scripts in the `/scripts` directory must be executed from within `/scripts`. Make sure you `cd scripts` before you run them. (This is because `export-env.sh` expects your `.env` file to be at a specific relative path.)
+💡 *general note*: any of the scripts in the `/scripts` directory must be executed from within `/scripts`. Make sure you `cd scripts` before you run them. (This is because `load-dotenv.sh` expects your `.env` file to be at a specific relative path.)
 
 ### Initialize
 
