@@ -12,8 +12,8 @@ Builds and serves production data
 
 ### Initialize
 
-- Create a new Postgres database, e.g. `internet_explorer`
-- Initialize the database with `psql -d internet_explorer -f init-db.sql`
+- Create a new Postgres database, e.g. `internet_xplorer`
+- Initialize the database with `psql -d internet_xplorer -f init-db.sql`
 
 ### Load source data
 
