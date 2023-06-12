@@ -27,3 +27,19 @@ npm run dev
 ```sh
 npm run build
 ```
+
+### Running with Docker
+
+Build the image:
+
+```bash
+docker build . -t internet-xplorer-app
+```
+
+To run the image:
+
+```bash
+docker run -it -p 5173:5173 --rm --name internet-xplorer-app internet-xplorer-app
+```
+
+And then visit http://localhost:5173 in the browser.
