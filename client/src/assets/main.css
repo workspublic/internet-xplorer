@@ -1,0 +1,9 @@
+/*
+add custom font
+https://medium.com/geekculture/how-to-use-custom-fonts-in-vue-project-ec3666dcb6d9
+*/
+@font-face {
+  font-family: 'Franklin Gothic';
+  src: local('Franklin Gothic'),
+  url(./franklin-gothic-black.ttf) format('truetype');
+}
