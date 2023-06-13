@@ -1,40 +1,43 @@
 <script setup>
-  import mapboxgl from 'mapbox-gl';
-  import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+  import maplibregl from 'maplibre-gl';
+  import { GeocodingControl } from '@maptiler/geocoding-control/maplibregl';
   import { onMounted } from 'vue';
   import { useStore } from '@/stores/store';
-  import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+  import 'maplibre-gl/dist/maplibre-gl.css';
+  import '@maptiler/geocoding-control/style.css';
+
+  const MAPTILER_API_KEY = 'kzHOjc7iFcT1ArfZLBt2';
 
   const store = useStore();
 
   onMounted(() => {
-    mapboxgl.accessToken = 'pk.eyJ1Ijoid29ya3NwdWJsaWMiLCJhIjoiY2xkcXBxanZmMTUyNzNvdXVsbGNpcThlZCJ9.9bLxlYgqGCLQr2G5zYCFYw';
-
-    const map = new mapboxgl.Map({
+    const map = new maplibregl.Map({
       container: 'map',
-      style: 'mapbox://styles/mapbox/dark-v11',
+      style: `https://api.maptiler.com/maps/backdrop-dark/style.json?key=${MAPTILER_API_KEY}`,
       center: [-77.4, 40.9],
       zoom: 7,
       minZoom: 6,
       maxZoom: 17,
     });
 
-
     // add map controls/attribution
     // map.addControl(new mapboxgl.AttributionControl({
     //   customAttribution: 'Addresses from OpenAddresses; broadband availability from FCC'
     // }));
-    map.addControl(new mapboxgl.NavigationControl(), 'top-left');
-    map.addControl(new mapboxgl.GeolocateControl({
+    map.addControl(new maplibregl.NavigationControl(), 'top-left');
+    map.addControl(new maplibregl.GeolocateControl({
+      // positionOptions: {
       positionOptions: {
+        // enableHighAccuracy: true
         enableHighAccuracy: true
       },
     }), 'top-left');
 
     // add geocoder
-    map.addControl(new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
-      mapboxgl: mapboxgl
+    // https://github.com/maptiler/maptiler-geocoding-control#example-for-maplibre-gl-js-using-module-bundler
+    map.addControl(new GeocodingControl({
+      apiKey: MAPTILER_API_KEY,
+      maplibregl,
     }));
 
     map.on('load', () => {
