@@ -20,15 +20,10 @@
       maxZoom: 17,
     });
 
-    // add map controls/attribution
-    // map.addControl(new mapboxgl.AttributionControl({
-    //   customAttribution: 'Addresses from OpenAddresses; broadband availability from FCC'
-    // }));
+    // add map controls
     map.addControl(new maplibregl.NavigationControl(), 'top-left');
     map.addControl(new maplibregl.GeolocateControl({
-      // positionOptions: {
       positionOptions: {
-        // enableHighAccuracy: true
         enableHighAccuracy: true
       },
     }), 'top-left');
@@ -39,6 +34,8 @@
       apiKey: MAPTILER_API_KEY,
       maplibregl,
     }));
+
+    // TODO add attribution for data sources (fcc, mlab, etc.)?
 
     map.on('load', () => {
       // https://docs.mapbox.com/mapbox-gl-js/example/geojson-layer-in-stack/
