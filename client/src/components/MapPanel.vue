@@ -68,8 +68,8 @@
               // if bdc all-tech speeds are null
               [
                 'any',
-                ['!', ['has', 'bad']],
-                ['!', ['has', 'bau']],
+                ['!', ['has', 'bdc_all_down_max']],
+                ['!', ['has', 'bdc_all_up_max']],
               ],
               'rgb(0, 255, 204)', // turquoise
 
@@ -79,28 +79,28 @@
               // below
               [
                 'any',
-                ['!', ['has', 'bwd']],
-                ['!', ['has', 'bwu']],
+                ['!', ['has', 'bdc_wired_down_max']],
+                ['!', ['has', 'bdc_wired_up_max']],
               ],
               'rgb(255, 1, 52)', // red
               
               // served
               [
                 'all',
-                ['>=', ['get', 'bwd'], 100],
-                ['>=', ['get', 'bwu'], 20],
+                ['>=', ['get', 'bdc_wired_down_max'], 100],
+                ['>=', ['get', 'bdc_wired_up_max'], 20],
               ],
               'rgb(146, 52, 235)', // purple
               
               // underserved
               [
                 'all',
-                ['>=', ['get', 'bwd'], 25],
-                ['>=', ['get', 'bwu'], 3],
+                ['>=', ['get', 'bdc_wired_down_max'], 25],
+                ['>=', ['get', 'bdc_wired_up_max'], 3],
                 [
                   'any',
-                  ['<', ['get', 'bwd'], 100],
-                  ['<', ['get', 'bwu'], 20],
+                  ['<', ['get', 'bdc_wired_down_max'], 100],
+                  ['<', ['get', 'bdc_wired_up_max'], 20],
                 ],
               ],
               'rgb(242, 255, 0)', // yellow
@@ -108,8 +108,8 @@
               // unserved
               [
                 'any',
-                ['<', ['get', 'bwd'], 25],
-                ['<', ['get', 'bwu'], 3],
+                ['<', ['get', 'bdc_wired_down_max'], 25],
+                ['<', ['get', 'bdc_wired_up_max'], 3],
               ],
               'rgb(255, 0, 0)', // red
               

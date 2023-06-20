@@ -21,13 +21,13 @@ ogr2ogr \
   $db_uri \
   -sql "
     select
-      hash as h,
-      bdc_all_down_max as bad,
-      bdc_all_up_max as bau,
-      bdc_terrestrial_down_max as btd,
-      bdc_terrestrial_up_max as btu,
-      bdc_wired_down_max as bwd,
-      bdc_wired_up_max as bwu,
+      hash,
+      bdc_all_down_max,
+      bdc_all_up_max,
+      bdc_terrestrial_down_max,
+      bdc_terrestrial_up_max,
+      bdc_wired_down_max,
+      bdc_wired_up_max,
       geom
     from summary_addresses
   " \
