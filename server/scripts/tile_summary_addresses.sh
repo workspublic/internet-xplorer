@@ -22,12 +22,37 @@ ogr2ogr \
   -sql "
     select
       hash,
-      bdc_all_down_max,
-      bdc_all_up_max,
-      bdc_terrestrial_down_max,
-      bdc_terrestrial_up_max,
-      bdc_wired_down_max,
-      bdc_wired_up_max,
+      -- classify bdc wired service
+      case
+        when
+          bdc_wired_down_max >= 100 and
+          bdc_wired_up_max >= 20
+        then 3
+        when
+          bdc_wired_down_max >= 25 and
+          bdc_wired_down_max >= 3 and
+          (
+            bdc_wired_down_max < 100 or
+            bdc_wired_up_max < 20
+          )
+        then 2
+        when
+          bdc_wired_down_max < 25 or
+          bdc_wired_up_max < 3
+        then 1
+        when
+        	bdc_wired_down_max is null or
+        	bdc_wired_up_max is null
+        then -1
+      end as bdc_wired_class,
+      -- flag addresses missing from bdc (based on census block and hex)
+      case
+        when
+        	bdc_all_down_max is not null and
+        	bdc_all_up_max is not null
+        then 1
+        else 0
+      end as bdc_service_reported,
       geom
     from summary_addresses
   " \
