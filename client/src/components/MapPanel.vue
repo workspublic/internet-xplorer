@@ -1,6 +1,7 @@
 <script setup>
   import maplibregl from 'maplibre-gl';
   import { GeocodingControl } from '@maptiler/geocoding-control/maplibregl';
+  import * as pmtiles from 'pmtiles';
   import { onMounted } from 'vue';
   import { useStore } from '@/stores/store';
   import 'maplibre-gl/dist/maplibre-gl.css';
@@ -9,6 +10,11 @@
   const MAPTILER_API_KEY = 'kzHOjc7iFcT1ArfZLBt2';
 
   const store = useStore();
+
+  // set up pmtiles
+  // https://protomaps.com/docs/frontends/maplibre
+  const pmtilesProtocol = new pmtiles.Protocol();
+  maplibregl.addProtocol('pmtiles', pmtilesProtocol.tile);
 
   onMounted(() => {
     const map = new maplibregl.Map({
@@ -54,66 +60,45 @@
           id: 'summary-addresses',
           source: {
             type: 'vector',
+            // TODO clean this section up, move examples to readme, etc.
             // local tiles with dirt
             // tiles: [`http://localhost:3000/v1/mvt/pa_addresses_service_summary/{z}/{x}/{y}?columns=${SYMBOLOGY_ATTRIBUTE},hash`],
             // local tiles with python http server
             // tiles: [`http://localhost:3000/{z}/{x}/{y}.pbf`],
-            tiles: ['https://broadband-map-pa.nyc3.digitaloceanspaces.com/tiles/summary-addresses-tiles_20230508_184409/{z}/{x}/{y}.pbf'],
+            // tiles: ['https://broadband-map-pa.nyc3.digitaloceanspaces.com/tiles/summary-addresses-tiles_20230508_184409/{z}/{x}/{y}.pbf'],
+            
+            // PMTILES
+            // pmtiles - 500k (default)
+            // url: 'pmtiles://https://broadband-map-pa.nyc3.digitaloceanspaces.com/tiles/summary_addresses_20230620_213112_500k.pmtiles',
+            // pmtiles - 1mb
+            // url: 'pmtiles://https://broadband-map-pa.nyc3.digitaloceanspaces.com/tiles/summary_addresses_20230620_201604_1mb.pmtiles',
+            // pmtiles - 2mb
+            // url: 'pmtiles://https://broadband-map-pa.nyc3.digitaloceanspaces.com/tiles/summary_addresses_20230620_202618_2mb.pmtiles',
+            // pmtiles - 3mb
+            url: 'pmtiles://https://broadband-map-pa.nyc3.digitaloceanspaces.com/tiles/summary_addresses_20230620_223741.pmtiles',
           },
           'source-layer': 'summary-addresses',
           type: 'circle',
           paint: {
             'circle-color': [
               'case',
-              // if bdc all-tech speeds are null
-              [
-                'any',
-                ['!', ['has', 'bdc_all_down_max']],
-                ['!', ['has', 'bdc_all_up_max']],
-              ],
+              // no bdc service reported
+              ['==', ['get', 'bdc_service_reported'], 0],
               'rgb(0, 255, 204)', // turquoise
 
-              // if bdc wired speeds are null, treat as unserved
-              // note: this goes up here and is separate from the "unserved" 
-              // logic because otherwise there are errors checking null fields
-              // below
-              [
-                'any',
-                ['!', ['has', 'bdc_wired_down_max']],
-                ['!', ['has', 'bdc_wired_up_max']],
-              ],
-              'rgb(255, 1, 52)', // red
-              
               // served
-              [
-                'all',
-                ['>=', ['get', 'bdc_wired_down_max'], 100],
-                ['>=', ['get', 'bdc_wired_up_max'], 20],
-              ],
+              ['==', ['get', 'bdc_wired_class'], 3],
               'rgb(146, 52, 235)', // purple
               
               // underserved
-              [
-                'all',
-                ['>=', ['get', 'bdc_wired_down_max'], 25],
-                ['>=', ['get', 'bdc_wired_up_max'], 3],
-                [
-                  'any',
-                  ['<', ['get', 'bdc_wired_down_max'], 100],
-                  ['<', ['get', 'bdc_wired_up_max'], 20],
-                ],
-              ],
+              ['==', ['get', 'bdc_wired_class'], 2],
               'rgb(242, 255, 0)', // yellow
-              
+
               // unserved
-              [
-                'any',
-                ['<', ['get', 'bdc_wired_down_max'], 25],
-                ['<', ['get', 'bdc_wired_up_max'], 3],
-              ],
+              ['<', ['get', 'bdc_wired_class'], 2],
               'rgb(255, 0, 0)', // red
               
-              // other
+              // other (shouldn't be any of these)
               'rgb(255, 255, 255)', // white
             ],
 
