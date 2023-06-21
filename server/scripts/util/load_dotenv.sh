@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 # Usage:
 # ./load-dotenv.sh ; $COMMAND
 
@@ -7,10 +9,10 @@
 # https://stackoverflow.com/a/20909045/676001
 
 load_dotenv () {
-  if [ -n "$NODE_ENV" ]; then
-    env_file=../../.env."$NODE_ENV"
-  else
+  if [ -z ${NODE_ENV+x} ]; then
     env_file=../../.env
+  else
+    env_file=../../.env."$NODE_ENV"
   fi
 
   unamestr=$(uname)
