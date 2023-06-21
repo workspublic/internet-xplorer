@@ -93,7 +93,7 @@
 
     <hr />
 
-    <small class="text-muted">
+    <small class="text-body-secondary">
       A project of
       <a href="https://thexlab.org/" target="_blank">The X-Lab</a>
       and
