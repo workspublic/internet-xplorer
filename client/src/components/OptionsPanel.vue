@@ -111,6 +111,13 @@ h1 {
   font-size: 1.25rem;
 }
 
+/* previously we were using `.text-muted` which got deprecated in favor of 
+`.text-body-secondary`, but that has some transparency on it, so this is an
+override to make it look like it did before */
+.text-body-secondary {
+  color: #6c757d!important;
+}
+
 /* options styles - still wip */
 /* .step-number {
   background-color: rgb(13, 110, 253);
