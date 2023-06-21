@@ -134,7 +134,7 @@
         return;
       };
 
-      const hash = selectedFeature.properties.h;
+      const { hash } = selectedFeature.properties;
 
       await store.fetchAddress(hash);
     });
