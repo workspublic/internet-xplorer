@@ -2,18 +2,20 @@
 
 set -euo pipefail
 
+source ./util/create_temp_dir.sh
 source ./util/load_dotenv.sh
 source ./util/make_db_uri.sh
 
 echo "Starting..."
 
 load_dotenv
+
+geojson_path=$SCRIPTS_TEMP_DIR/summary_addresses.geojsonl
+
 db_uri=$(make_db_uri)
 
-geojson_path=/tmp/internet-xplorer/summary-addresses-tile-features.geojsonl
+create_temp_dir
 
-# TODO shortening these attribute names might not be netting much of a gain
-# https://github.com/felt/tippecanoe/issues/100
 echo "Exporting summary addresses as GeoJSON..."
 ogr2ogr \
   -f GeoJSONSeq \
@@ -60,10 +62,10 @@ ogr2ogr \
 
 echo "Tiling..."
 
-tile_dir_path="/tmp/internet-xplorer/summary-addresses-tiles_$(date '+%Y%m%d_%H%M%S')"
-echo "Output directory:" $tile_dir_path
+out_tiles_path="$SCRIPTS_TEMP_DIR/summary_addresses_$(date '+%Y%m%d_%H%M%S').pmtiles"
+echo "Output tile path:" $out_tiles_path
 
-cat $geojson_path | tippecanoe \
+tippecanoe \
   --read-parallel \
   --layer=summary-addresses \
   --maximum-zoom=16 \
@@ -71,4 +73,5 @@ cat $geojson_path | tippecanoe \
   --maximum-tile-bytes=3000000 \
   --drop-rate=1 \
   --drop-densest-as-needed \
-  -e $tile_dir_path
+  -o $out_tiles_path \
+  $geojson_path
