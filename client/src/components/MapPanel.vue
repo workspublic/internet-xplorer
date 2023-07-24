@@ -60,22 +60,7 @@
           id: 'summary-addresses',
           source: {
             type: 'vector',
-            // TODO clean this section up, move examples to readme, etc.
-            // local tiles with dirt
-            // tiles: [`http://localhost:3000/v1/mvt/pa_addresses_service_summary/{z}/{x}/{y}?columns=${SYMBOLOGY_ATTRIBUTE},hash`],
-            // local tiles with python http server
-            // tiles: [`http://localhost:3000/{z}/{x}/{y}.pbf`],
-            // tiles: ['https://broadband-map-pa.nyc3.digitaloceanspaces.com/tiles/summary-addresses-tiles_20230508_184409/{z}/{x}/{y}.pbf'],
-            
-            // PMTILES
-            // pmtiles - 500k (default)
-            // url: 'pmtiles://https://broadband-map-pa.nyc3.digitaloceanspaces.com/tiles/summary_addresses_20230620_213112_500k.pmtiles',
-            // pmtiles - 1mb
-            // url: 'pmtiles://https://broadband-map-pa.nyc3.digitaloceanspaces.com/tiles/summary_addresses_20230620_201604_1mb.pmtiles',
-            // pmtiles - 2mb
-            // url: 'pmtiles://https://broadband-map-pa.nyc3.digitaloceanspaces.com/tiles/summary_addresses_20230620_202618_2mb.pmtiles',
-            // pmtiles - 3mb
-            url: 'pmtiles://https://broadband-map-pa.nyc3.digitaloceanspaces.com/tiles/summary_addresses_20230620_223741.pmtiles',
+            url: 'pmtiles://https://broadband-map-pa.nyc3.digitaloceanspaces.com/tiles/summary_addresses_20230719_015937.pmtiles',
           },
           'source-layer': 'summary-addresses',
           type: 'circle',
