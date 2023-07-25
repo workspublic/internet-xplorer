@@ -55,6 +55,9 @@ ogr2ogr \
         then 1
         else 0
       end as bdc_service_reported,
+      -- compare mlab to bdc
+      round((mlab_down_pctl_95 / bdc_wired_down_max)::numeric, 2) as mlab_pctl_95_vs_bdc_down,
+      round((mlab_up_pctl_95 / bdc_wired_up_max)::numeric, 2) as mlab_pctl_95_vs_bdc_up,
       geom
     from summary_addresses
   " \
