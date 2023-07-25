@@ -19,10 +19,6 @@
       <p>Click on a dot to see details.</p>
     </section>
 
-    <div class="alert alert-dark">
-      🚧 We're awaiting data from some counties. Please check back soon.
-    </div>
-
     <!-- TODO options - work in progress for now -->
     <!-- <section class="mb-5">
       <h1 class="mb-3">

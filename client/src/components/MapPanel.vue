@@ -60,7 +60,7 @@
           id: 'summary-addresses',
           source: {
             type: 'vector',
-            url: 'pmtiles://https://broadband-map-pa.nyc3.digitaloceanspaces.com/tiles/summary_addresses_20230719_015937.pmtiles',
+            url: 'pmtiles://https://broadband-map-pa.nyc3.digitaloceanspaces.com/tiles/summary_addresses_20230725_000653.pmtiles',
           },
           'source-layer': 'summary-addresses',
           type: 'circle',
